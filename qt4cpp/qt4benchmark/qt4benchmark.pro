@@ -9,13 +9,15 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     datastore/DataStore.cpp \
+    benchdataio.cpp
 
 
 HEADERS += \
     datastore/Src/DataStore.h \
     datastore/DataStoreSchema.h \
     datastore/IDataStore.h \
-    Result.h
+    Result.h \
+    benchdataio.h
 
 
 
