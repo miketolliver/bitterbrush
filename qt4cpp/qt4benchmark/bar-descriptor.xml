@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
 <qnx xmlns="http://www.qnx.com/schemas/application/1.0">
     <id>com.example.qt4benchmark</id>
     <name>qt4benchmark</name>
     <versionNumber>1.0.0</versionNumber>
     <description>DESCRIPTION</description>
-
     <initialWindow>
         <systemChrome>none</systemChrome>
         <transparent>false</transparent>
@@ -13,15 +12,13 @@
     </initialWindow>
     <publisher>PUBLISHER</publisher>
     <copyright>COPYRIGHT</copyright>
-    <env var="QML_IMPORT_PATH" value="app/native/imports:/usr/lib/qt4/imports"/>
-    <env var="QT_PLUGIN_PATH" value="app/native/plugins:/usr/lib/qt4/plugins"/>
-    <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib/"/>
+    <env var="QML_IMPORT_PATH" value="/usr/lib/qt4/imports:$QML_IMPORT_PATH"/>
+    <env var="QT_PLUGIN_PATH" value="/usr/lib/qt4/plugins:$QT_PLUGIN_PATH"/>
+    <env var="LD_LIBRARY_PATH" value="/usr/lib/qt4/lib:$LD_LIBRARY_PATH"/>
     <arg>-style</arg>
     <arg>qnxlight</arg>
-
     <action system="true">run_native</action>
-
     <!-- qt4benchmark should point to the project binary, path can be relative -->
-    <asset entry="true" path="qt4benchmark" type="Qnx/Elf">qt4benchmark</asset>
+    <asset type="Qnx/Elf" entry="true" path="qt4benchmark">qt4benchmark</asset>
     <asset path="%SRC_DIR%/qml">qml</asset>
 </qnx>

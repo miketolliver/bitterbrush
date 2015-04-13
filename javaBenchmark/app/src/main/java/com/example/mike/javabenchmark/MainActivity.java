@@ -2,18 +2,82 @@ package com.example.mike.javabenchmark;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public DbManager mDbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDbManager = new DbManager(this);
+
+        Button clickButton = (Button) findViewById(R.id.mStartBtn);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                doWork();
+            }
+        });
+
+
+
     }
 
+    public boolean doWork(){
+
+        Log.d("BENCH", "Starting work...");
+
+
+        int lLoop = 100;
+        long t1 = System.currentTimeMillis();
+
+        for( int i=0; i<lLoop; i++ ){
+            String lValue = "VALUE"+i;
+            mDbManager.AddValueString(lValue, "Some dummy string");
+        }
+        long t2 = System.currentTimeMillis();
+        long dur1 = t2-t1;
+        Log.d("BENCH", "Duration task1: "+ dur1);
+
+        for( int i=0; i<lLoop; i++ ) {
+            String lValue = "VALUE" + i;
+            mDbManager.SetValueString(lValue, "Some OTHER dummy string");
+        }
+        long t3 = System.currentTimeMillis();
+        long dur2 = t3-t2;
+        Log.d("BENCH", "Duration task2: "+ dur2);
+
+        String val="";
+        for( int i=0; i<lLoop; i++ ) {
+            String lValue = "VALUE" + i;
+            val = mDbManager.GetValueString(lValue);
+        }
+        long t4 = System.currentTimeMillis();
+        long dur3 = t4-t3;
+        Log.d("BENCH", "Duration task3: "+ dur3 + ". String = "+val);
+
+
+        for( int i=0; i<lLoop; i++ ) {
+            String lValue = "VALUE" + i;
+            mDbManager.DeleteValue(lValue);
+        }
+        long t5 = System.currentTimeMillis();
+        long dur4 = t5-t4;
+        Log.d("BENCH", "Duration task4: "+ dur4);
+
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

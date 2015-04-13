@@ -9,6 +9,7 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     datastore/DataStore.cpp \
+    sqlite/sqlite3.c \
     benchdataio.cpp
 
 

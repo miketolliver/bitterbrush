@@ -450,10 +450,12 @@ RESULT DataStoreImpl::AddValueHelper(
     // Make sure the key and value name have only valid characters
     if ( !ValidParentKeyString( keyUpper ) )
     {
+        std::cout << "DATASTORE Err: validparentkeystring failed.\n"<< std::flush;
         return RESULT_FAIL;
     }
     if ( !ValidKeyString( valueNameUpper ) )
     {
+        std::cout << "DATASTORE Err: ValidKeyString failed.\n"<< std::flush;
         return RESULT_FAIL;
     }
 
@@ -462,6 +464,7 @@ RESULT DataStoreImpl::AddValueHelper(
     GetKeyExists( keyUpper, exists );
     if ( !exists )
     {
+        std::cout << "DATASTORE Err: GetKeyExists failed.\n"<< std::flush;
         return RESULT_FAIL;
     }
 
@@ -489,6 +492,7 @@ RESULT DataStoreImpl::AddValueHelper(
         {
             if ( exists )
             {
+                std::cout << "DATASTORE Err: key already exists failed.\n"<< std::flush;
                 return RESULT_FAIL;
             }
 
@@ -500,6 +504,7 @@ RESULT DataStoreImpl::AddValueHelper(
         {
             if ( !exists )
             {
+                std::cout << "DATASTORE Err: key does not exist failed.\n";
                 return RESULT_FAIL;
             }
 
@@ -509,6 +514,7 @@ RESULT DataStoreImpl::AddValueHelper(
             GetValueType( keyUpper, valueNameUpper, valueType, valueTypeString );
             if ( valueTypeString != type )
             {
+                std::cout << "DATASTORE Err: type failed.\n"<< std::flush;
                 return RESULT_FAIL;
             }
 
@@ -527,6 +533,7 @@ RESULT DataStoreImpl::AddValueHelper(
 
         if ( sqlResult != SQLITE_OK )
         {
+            std::cout << "DATASTORE Err: sqlResult failed: "<< sqlResult << ".\n" << std::flush;
             return RESULT_FAIL;
         }
     }
