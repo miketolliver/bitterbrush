@@ -14,8 +14,8 @@ BenchDataIO::BenchDataIO(QObject *parent) :
 RESULT BenchDataIO::Initialize(){
 
     QDir dir;
-    dir.mkpath("data/test");
-    QString lPath = QDir::currentPath() + "/data/test/" + "bench.dat";
+    //dir.mkpath("data/test");
+    QString lPath = QDir::currentPath() + "/data/" + "qt4bench.dat";
 
     RESULT result = benchmark::DataStore::CreateInstance( lPath.toStdString(), &mDataStore );
     if( benchmark::Failed( result )  ){
@@ -69,17 +69,19 @@ RESULT BenchDataIO::Initialize(){
 void BenchDataIO::doWork(){
 
     uint32 lDsVersion = 0;
-    RESULT result = mDataStore->GetValueUint32( mRootKey, "VERSION", lDsVersion );
+    RESULT result = RESULT_OK;
+
+    /*result = mDataStore->GetValueUint32( mRootKey, "VERSION", lDsVersion );
     if( benchmark::Failed( result ) )
     {
         qDebug("Unable to read version info ");
     }else{
         qDebug("Datastore version: %d", lDsVersion);
-    }
+    } */
 
 
     //number of iterations per task.
-    int lLoop = 100;
+    int lLoop = 500;
 
 
     clock_t t1 = clock();

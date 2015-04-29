@@ -86,6 +86,7 @@ public class DbManager extends SQLiteOpenHelper {
         }else{
             //Log.d("BENCH_DB", "GetValueString for key="+key+", valueName="+valueName+" returned 0 results." );
         }
+        cur.close();
 
         return res;
     }
