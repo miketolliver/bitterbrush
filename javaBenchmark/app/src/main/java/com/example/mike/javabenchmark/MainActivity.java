@@ -15,6 +15,7 @@ public class MainActivity extends ActionBarActivity {
 
     public DbManager mDbManager;
     public TextView mResults;
+    public LocalStore mLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         mResults = (TextView)findViewById(R.id.mTextResults);
-        mDbManager = new DbManager(this);
+
+        mLocalStore = new LocalStore(this);
+        //mDbManager = new DbManager(this);
 
         Button clickButton = (Button) findViewById(R.id.mStartBtn);
         clickButton.setOnClickListener( new View.OnClickListener() {
@@ -34,14 +37,11 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
-
     }
 
     public boolean doWork(){
-
+        /*
         Log.d("BENCH", "Starting work...");
-
 
         int lLoop = 100;
         long t1 = System.currentTimeMillis();
@@ -91,9 +91,20 @@ public class MainActivity extends ActionBarActivity {
         str = "Duration task4: " + dur4 + "\n";
         mResults.append(str);
 
+        */
+        return true;
+    }
+
+
+    public boolean addMessages(){
+
+        Message[] lMessages = new Message[10];
+
+        mLocalStore.moveMessages( lMessages );
 
         return true;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
