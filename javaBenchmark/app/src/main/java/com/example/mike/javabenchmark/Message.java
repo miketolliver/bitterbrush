@@ -49,6 +49,11 @@ public class Message {
     }
 
 
+    public Message( boolean aNoDefaults ){
+
+    }
+
+
     public boolean olderThan(Date earliestDate) {
         if (earliestDate == null) {
             return false;

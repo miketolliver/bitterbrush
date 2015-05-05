@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -34,6 +36,26 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 doWork();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnAddMessages);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                addMessages();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnSearch);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                searchMessages();
             }
         });
 
@@ -95,14 +117,51 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    public boolean searchMessages(){
+
+        ArrayList<Message> msgs;
+
+        long t1 = System.currentTimeMillis();
+        msgs = mLocalStore.searchForMessages();
+
+        int lMsgCount = msgs.size();
+        long t2 = System.currentTimeMillis();
+        long dur1 = t2-t1;
+        Log.d("BENCH", "Duration SearchMessages: "+ dur1 +", returned msgs: "+lMsgCount);
+
+        String str = "Duration SearchMessages: " + dur1 +", returned msgs: "+lMsgCount+ "\n";
+        mResults.append(str);
+
+        if(lMsgCount > 0){
+            Message lmsg = msgs.get(0);
+            String str2 = "SearchMessages first result subject: " + lmsg.mSubject + "\n";
+            String str3 = "SearchMessages first result text: " + lmsg.mText + "\n";
+            mResults.append(str2);
+            mResults.append(str3);
+        }
+
+
+
+        return true;
+    }
 
     public boolean addMessages(){
 
-        Message[] lMessages = new Message[10];
+        int lCount = 50;
+        Message[] lMessages = new Message[lCount];
+        for(int i=0; i<lCount; i++){
+            lMessages[i] = new Message();
+        }
 
-        mLocalStore.moveMessages( lMessages );
+        long t1 = System.currentTimeMillis();
+        boolean lres = mLocalStore.addMessages( lMessages, false );
+        long t2 = System.currentTimeMillis();
+        long dur1 = t2-t1;
+        Log.d("BENCH", "Duration AddMessages: "+ dur1);
 
-        return true;
+        String str = "Duration AddMessages: " + dur1 + "\n";
+        mResults.append(str);
+        return lres;
     }
 
 

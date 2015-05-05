@@ -25,7 +25,7 @@ import java.util.UUID;
 /**
  * Created by Mike
  */
-public class LocalStore implements Serializable {
+public class LocalStore { // implements Serializable {
 
 
     /*
@@ -35,7 +35,7 @@ public class LocalStore implements Serializable {
     static private String GET_MESSAGES_COLS =
             "subject, sender_list, date, uid, flags, messages.id, to_list, cc_list, " +
                     "bcc_list, reply_to_list, attachment_count, internal_date, messages.message_id, " +
-                    "folder_id, preview, threads.id, threads.root, deleted, read, flagged, answered, " +
+                    "folder_id, text_content, preview, threads.id, threads.root, deleted, read, flagged, answered, " +
                     "forwarded, stored_date, burn_expire_time, public_key_algorithm, signature_verified ";
     static private String GET_FOLDER_COLS = "folders.id, name, SUM(read=0), visible_limit, last_updated, status, push_state, last_pushed, SUM(flagged), integrate, top_group, poll_class, push_class, display_class";
     private static final String[] UID_CHECK_PROJECTION = { "uid" };
@@ -48,6 +48,10 @@ public class LocalStore implements Serializable {
     private LockableDatabase database;
     private ContentResolver mContentResolver;
 
+    private static final Message[] EMPTY_MESSAGE_ARRAY = new Message[0];
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    private static final Flag[] EMPTY_FLAG_ARRAY = new Flag[0];
+
 
     public LocalStore(final Activity application) throws MessagingException {
         database = new LockableDatabase(application, "fakeUUID", new StoreSchemaDefinition());
@@ -57,7 +61,9 @@ public class LocalStore implements Serializable {
         database.setStorageProviderId("defaultprovider");
         //uUid = account.getUuid();
 
+        Log.d("BENCH", "LocalStore created, opening database.");
         database.open();
+        Log.d("BENCH", "Database opened.");
     }
 
 
@@ -396,7 +402,7 @@ public class LocalStore implements Serializable {
     }
 
 
-    private boolean addMessages(final Message[] messages, final boolean copy) throws MessagingException {
+    public boolean addMessages(final Message[] messages, final boolean copy) throws MessagingException {
 
         try {
             final Long[] expirationTime = new Long[1];
@@ -519,6 +525,89 @@ public class LocalStore implements Serializable {
         }
     }
 
+    public ArrayList<Message> searchForMessages() throws MessagingException
+    {
+
+        StringBuilder query = new StringBuilder();
+        List<String> queryArgs = new ArrayList<String>();
+        //SqlQueryBuilder.buildWhereClause(mAccount, search.getConditions(), query, queryArgs);
+
+        // Avoid "ambiguous column name" error by prefixing "id" with the message table name
+        //String where = SqlQueryBuilder.addPrefixToSelection(new String[] { "id" }, "messages.", query.toString());
+
+        String[] selectionArgs = queryArgs.toArray(EMPTY_STRING_ARRAY);
+
+        String sqlQuery = "SELECT " + GET_MESSAGES_COLS + "FROM messages " +
+                "LEFT JOIN threads ON (threads.message_id = messages.id) " +
+                "LEFT JOIN folders ON (folders.id = messages.folder_id) WHERE " +
+                "((empty IS NULL OR empty != 1) AND deleted = 0)" +
+                //((!StringUtils.isNullOrEmpty(where)) ? " AND (" + where + ")" : "") +
+                " ORDER BY date DESC";
+
+        if (true) {
+            Log.d("BENCH", "Query = " + sqlQuery);
+        }
+
+        return getMessages(sqlQuery, selectionArgs);
+    }
+
+    private ArrayList<Message> getMessages(
+            final String queryString, final String[] placeHolders
+    ) throws MessagingException {
+        //Log.i("LocalStore.getMessages", "SQL: " + queryString);
+        final ArrayList<Message> messages = new ArrayList<Message>();
+        final int j = database.execute(false, new DbCallback<Integer>() {
+            @Override
+            public Integer doDbWork(final SQLiteDatabase db) throws WrappedException {
+                Cursor cursor = null;
+                int i = 0;
+                try {
+
+                    cursor = db.rawQuery(queryString + " LIMIT 10", placeHolders);
+
+                    while (cursor.moveToNext()) {
+                        Message message = new Message(true);
+                        message.mSubject = cursor.getString(0);
+                        message.mFrom = cursor.getString(1);
+                        message.mText = cursor.getString(14);
+                        //message.populateFromGetMessageCursor(cursor);
+
+                        messages.add(message);
+                        i++;
+                    }
+                    cursor.close();
+
+                    /*
+                    cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
+
+                    while (cursor.moveToNext()) {
+                        Message message = new Message();
+                        //message.populateFromGetMessageCursor(cursor);
+                        message.mSubject = cursor.getString(0);
+                        message.mFrom = cursor.getString(1);
+                        message.mText = cursor.getString(14);
+
+                        messages.add(message);
+                        i++;
+                    }
+                    */
+                } catch (Exception e) {
+                    Log.d("BENCH", "Got an exception", e);
+                } finally {
+                    if( cursor != null ) {
+                        cursor.close();
+                    }
+                }
+                return i;
+            }
+        });
+        //if (listener != null) {
+        //    listener.messagesFinished(j);
+        //}
+
+        return messages; //.toArray(EMPTY_MESSAGE_ARRAY);
+
+    }
 
 
 

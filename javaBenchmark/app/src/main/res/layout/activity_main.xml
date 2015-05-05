@@ -15,20 +15,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2" />
+            android:text="Add Msgs"
+            android:id="@+id/mBtnAddMessages" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button3" />
+            android:text="Search Msgs"
+            android:id="@+id/mBtnSearch" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button4" />
+            android:text="Update Msgs"
+            android:id="@+id/mUpdateMsgs" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,8 +51,15 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
+            android:text="Delete Msgs"
+            android:id="@+id/mBtnDelete"
+            android:layout_weight="0.5" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete All"
+            android:id="@+id/mBtnDeleteAll"
             android:layout_weight="0.5" />
     </LinearLayout>
 
@@ -100,6 +107,7 @@
         android:elevation="1dp"
         android:enabled="true"
         android:gravity="left|top"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:textSize="8dp" />
 
 </LinearLayout>
