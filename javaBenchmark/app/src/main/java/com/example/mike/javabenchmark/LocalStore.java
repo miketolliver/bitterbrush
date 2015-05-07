@@ -525,6 +525,18 @@ public class LocalStore { // implements Serializable {
         }
     }
 
+    public void deleteSomeMessages() throws MessagingException {
+
+        int temp = database.execute(false, new DbCallback<Integer>() {
+            @Override
+            public Integer doDbWork(final SQLiteDatabase db) {
+                db.execSQL("DELETE FROM messages WHERE id IN " +
+                        "(SELECT id FROM messages limit 100)", null);
+                return 1;
+            }
+        });
+    }
+
     public ArrayList<Message> searchForMessages() throws MessagingException
     {
 
@@ -563,6 +575,7 @@ public class LocalStore { // implements Serializable {
                 int i = 0;
                 try {
 
+                    /*
                     cursor = db.rawQuery(queryString + " LIMIT 10", placeHolders);
 
                     while (cursor.moveToNext()) {
@@ -577,8 +590,10 @@ public class LocalStore { // implements Serializable {
                     }
                     cursor.close();
 
-                    /*
                     cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
+                    */
+
+                    cursor = db.rawQuery(queryString, placeHolders);
 
                     while (cursor.moveToNext()) {
                         Message message = new Message();
@@ -590,7 +605,7 @@ public class LocalStore { // implements Serializable {
                         messages.add(message);
                         i++;
                     }
-                    */
+
                 } catch (Exception e) {
                     Log.d("BENCH", "Got an exception", e);
                 } finally {

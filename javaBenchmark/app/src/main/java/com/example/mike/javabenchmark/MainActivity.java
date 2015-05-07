@@ -49,6 +49,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        clickButton = (Button) findViewById(R.id.mBtnDelete);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                deleteSomeMessages();
+            }
+        });
+
         clickButton = (Button) findViewById(R.id.mBtnSearch);
         clickButton.setOnClickListener( new View.OnClickListener() {
 
@@ -145,9 +154,22 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    public boolean deleteSomeMessages(){
+        long t1 = System.currentTimeMillis();
+        mLocalStore.deleteSomeMessages();
+        long t2 = System.currentTimeMillis();
+        long dur1 = t2-t1;
+
+        Log.d("BENCH", "Duration deleteSomeMessages: "+ dur1);
+        String str = "Duration deleteSomeMessages: " + dur1 + "\n";
+        mResults.append(str);
+
+        return true;
+    }
+
     public boolean addMessages(){
 
-        int lCount = 50;
+        int lCount = 100;
         Message[] lMessages = new Message[lCount];
         for(int i=0; i<lCount; i++){
             lMessages[i] = new Message();
