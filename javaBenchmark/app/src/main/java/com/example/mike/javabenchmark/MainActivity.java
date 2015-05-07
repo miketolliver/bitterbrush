@@ -35,7 +35,17 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                doWork();
+                setSlowPragmas();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnFast);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                setFastPragmas();
             }
         });
 
@@ -70,7 +80,20 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void setFastPragmas(){
+        String sql = "PRAGMA cache_size=2000";
+        mLocalStore.doSimpleSql(sql);
+        Log.d("BENCH", "PRAGMA set FAST...");
+    }
+
+    public void setSlowPragmas(){
+        String sql = "PRAGMA cache_size=8000";
+        mLocalStore.doSimpleSql(sql);
+        Log.d("BENCH", "PRAGMA set SLOW...");
+    }
+
     public boolean doWork(){
+
         /*
         Log.d("BENCH", "Starting work...");
 

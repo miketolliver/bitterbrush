@@ -327,7 +327,15 @@ public class LocalStore { // implements Serializable {
             }
         });
     }
-
+    public void doSimpleSql(final String aSql) throws MessagingException {
+        database.execute(false, new DbCallback<Integer>() {
+            @Override
+            public Integer doDbWork(final SQLiteDatabase db) {
+                db.execSQL(aSql);
+                return 0;
+            }
+        });
+    }
 
     public Map<String, String> moveMessages(final Message[] msgs) throws MessagingException {
 
