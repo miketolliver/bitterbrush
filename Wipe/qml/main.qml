@@ -16,7 +16,8 @@ Rectangle {
         anchors.top: parent.top;
         anchors.right: parent.horizontalCenter;
 
-        pBgColor: pWipeOptionState===1 ? "#CCCCCC" : "#F6F6F6"
+        pBgColor: pWipeOptionState===1 ? "#282828" : "#FFFFFF"
+        pTextColor: pWipeOptionState===1 ? "#FFFFFF" : "#282828"
         pText: "Wipe Device"
         pBorderSize: 1
 
@@ -31,7 +32,8 @@ Rectangle {
         anchors.top: parent.top;
         anchors.right: parent.right;
 
-        pBgColor: pWipeOptionState===2 ? "#CCCCCC" : "#F6F6F6"
+        pBgColor: pWipeOptionState===2 ? "#282828" : "#FFFFFF"
+        pTextColor: pWipeOptionState===2 ? "#FFFFFF" : "#282828"
         pText: "Remote Wipe"
         pBorderSize: 1
 
@@ -67,7 +69,7 @@ Rectangle {
         anchors.right: parent.right;
         anchors.bottom: showDrawerBtn.top;
         height: 1
-        color: "#888888"
+        color: "#d0d0d0"
     }
 
     PlainButton{
