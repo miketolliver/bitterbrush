@@ -35,7 +35,17 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                doWork();
+                setSlowPragmas();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnFast);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                setFastPragmas();
             }
         });
 
@@ -46,6 +56,15 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 addMessages();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnDelete);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                deleteSomeMessages();
             }
         });
 
@@ -67,7 +86,20 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void setFastPragmas(){
+        String sql = "PRAGMA cache_size=2000";
+        mLocalStore.doSimpleSql(sql);
+        Log.d("BENCH", "PRAGMA set FAST...");
+    }
+
+    public void setSlowPragmas(){
+        String sql = "PRAGMA cache_size=8000";
+        mLocalStore.doSimpleSql(sql);
+        Log.d("BENCH", "PRAGMA set SLOW...");
+    }
+
     public boolean doWork(){
+
         /*
         Log.d("BENCH", "Starting work...");
 
@@ -204,9 +236,22 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    public boolean deleteSomeMessages(){
+        long t1 = System.currentTimeMillis();
+        mLocalStore.deleteSomeMessages();
+        long t2 = System.currentTimeMillis();
+        long dur1 = t2-t1;
+
+        Log.d("BENCH", "Duration deleteSomeMessages: "+ dur1);
+        String str = "Duration deleteSomeMessages: " + dur1 + "\n";
+        mResults.append(str);
+
+        return true;
+    }
+
     public boolean addMessages(){
 
-        int lCount = 50;
+        int lCount = 100;
         Message[] lMessages = new Message[lCount];
         for(int i=0; i<lCount; i++){
             lMessages[i] = new Message();

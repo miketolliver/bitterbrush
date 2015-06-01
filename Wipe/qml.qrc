@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/Drawer.qml</file>
+        <file>qml/RemoteSettings.qml</file>
+        <file>qml/WipeDevice.qml</file>
+        <file>qml/WipeDeviceConfirm.qml</file>
+        <file>qml/WipeRemote.qml</file>
+        <file>qml/PlainButton.qml</file>
+    </qresource>
+</RCC>
