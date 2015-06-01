@@ -7,5 +7,15 @@
         <file>qml/WipeDeviceConfirm.qml</file>
         <file>qml/WipeRemote.qml</file>
         <file>qml/PlainButton.qml</file>
+        <file>images/blue_btn_click.9.png</file>
+        <file>images/ic_button_pressed.9.png</file>
+        <file>images/ic_launcher.png</file>
+        <file>images/ic_nuke.png</file>
+        <file>images/ic_orange_warning.png</file>
+        <file>images/ic_overflow_action.png</file>
+        <file>images/ic_warning.png</file>
+        <file>images/menu_back.png</file>
+        <file>images/menu_setting.png</file>
+        <file>qml/PlainIconButton.qml</file>
     </qresource>
 </RCC>

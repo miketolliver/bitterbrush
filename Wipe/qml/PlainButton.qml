@@ -13,7 +13,7 @@ Rectangle {
     property string pText: "Plain Button"
     property color pBorderColor: "#888888"
     property int pBorderSize: 0;
-    property int pTextPointSize: 10;
+    property int pTextPointSize: wipeLogic.getFontPointSizeM();
 
 
     signal btnClicked();

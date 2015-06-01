@@ -18,12 +18,12 @@ Rectangle {
 
         pBgColor: pWipeOptionState===1 ? "#282828" : "#FFFFFF"
         pTextColor: pWipeOptionState===1 ? "#FFFFFF" : "#282828"
-        pText: "Wipe Device"
+        pText: "WIPE DEVICE p:" + wipeLogic.platformFlag;
         pBorderSize: 1
 
         onBtnClicked: {
             pWipeOptionState = 1;
-            dummyTxt.text = "Wipe Device Clicked"
+            //dummyTxt.text = "Wipe Device Clicked"
         }
     }
     PlainButton{
@@ -34,12 +34,12 @@ Rectangle {
 
         pBgColor: pWipeOptionState===2 ? "#282828" : "#FFFFFF"
         pTextColor: pWipeOptionState===2 ? "#FFFFFF" : "#282828"
-        pText: "Remote Wipe"
+        pText: "REMOTE WIPE"
         pBorderSize: 1
 
         onBtnClicked: {
             pWipeOptionState = 2;
-            dummyTxt.text = "Wipe Remote Clicked"
+            //dummyTxt.text = "Wipe Remote Clicked"
         }
     }
 
@@ -72,11 +72,13 @@ Rectangle {
         color: "#d0d0d0"
     }
 
-    PlainButton{
+    PlainIconButton {
         id: showDrawerBtn
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
-        pText: "|"
+        height: wipeDeviceBtn.height;
+        width: Math.round(height*0.8);
+        pIconSrc: "qrc:/images/ic_overflow_action.png"
         onBtnClicked: {
             pIsDrawerOpen = true;
         }

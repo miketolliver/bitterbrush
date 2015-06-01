@@ -3,7 +3,8 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += \
-    source/main.cpp
+    source/main.cpp \
+    source/WipeLogic.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,3 +24,6 @@ DISTFILES += \
     qml/WipeDevice.qml \
     qml/WipeDeviceConfirm.qml \
     qml/WipeRemote.qml
+
+HEADERS += \
+    source/WipeLogic.h
