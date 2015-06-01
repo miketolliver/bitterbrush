@@ -51,11 +51,17 @@ public class MainActivity extends ActionBarActivity {
 
         clickButton = (Button) findViewById(R.id.mBtnSearch);
         clickButton.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 searchMessages();
+            }
+        });
+
+        clickButton = (Button) findViewById(R.id.mBtnPragmas);
+        clickButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListPragmas();
             }
         });
 
@@ -115,6 +121,59 @@ public class MainActivity extends ActionBarActivity {
 
         */
         return true;
+    }
+
+    public void ListPragmas(){
+
+        ArrayList<String> lPragmas = new ArrayList<String>();
+
+        lPragmas.add("auto_vacuum");
+        lPragmas.add("automatic_index");
+        lPragmas.add("busy_timeout");
+        lPragmas.add("cache_size");
+        lPragmas.add("cache_spill");
+        lPragmas.add("compile_options");
+        lPragmas.add("encoding");
+        lPragmas.add("foreign_key_check");
+        lPragmas.add("freelist_count");
+        lPragmas.add("fullfsync");
+        lPragmas.add("ignore_check_constraints");
+        lPragmas.add("incremental_vacuum");
+        lPragmas.add("journal_mode");
+        lPragmas.add("journal_size_limit");
+        lPragmas.add("legacy_file_format");
+        lPragmas.add("locking_mode");
+        lPragmas.add("max_page_count");
+        lPragmas.add("mmap_size");
+        lPragmas.add("page_count");
+        lPragmas.add("page_size");
+        lPragmas.add("read_uncommitted");
+        lPragmas.add("schema_version");
+        lPragmas.add("soft_heap_limit");
+        lPragmas.add("synchronous");
+        lPragmas.add("temp_store");
+        lPragmas.add("threads");
+
+        for(int i=0; i< lPragmas.size(); i++){
+            String lSql = "Pragma "+lPragmas.get(i)+";";
+            String lRes = mLocalStore.GetSimpleQueryValue(lSql);
+            String dbg = "Pragma "+lPragmas.get(i)+" = "+ lRes+ "\n";
+            Log.d("BENCH", dbg);
+            mResults.append(dbg);
+        }
+
+        String lSql = "select sqlite_version();";
+        String lRes = mLocalStore.GetSimpleQueryValue(lSql);
+        String dbg = "Sqlite version = "+ lRes+ "\n";
+        Log.d("BENCH", dbg);
+        mResults.append(dbg);
+
+        lSql = "PRAGMA synchronous = 1;";
+        mLocalStore.simpleSqlExecute(lSql);
+        lSql = "PRAGMA temp_store = 2;";
+        mLocalStore.simpleSqlExecute(lSql);
+        lSql = "PRAGMA cache_size = 2000;";
+        mLocalStore.simpleSqlExecute(lSql);
     }
 
     public boolean searchMessages(){

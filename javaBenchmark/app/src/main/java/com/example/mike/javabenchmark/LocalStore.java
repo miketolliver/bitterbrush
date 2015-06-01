@@ -525,6 +525,48 @@ public class LocalStore { // implements Serializable {
         }
     }
 
+
+    public void simpleSqlExecute( final String aSql ) {
+        database.execute(false, new DbCallback<Void>() {
+            @Override
+            public Void doDbWork(final SQLiteDatabase db) {
+                db.execSQL(aSql);
+                return null;
+            }
+        });
+    }
+
+    public String GetSimpleQueryValue( final String aSql ){
+        final String sqlQuery = aSql; //"PRAGMA "+ aPragma + ";";
+        String lResult = "";
+        final ArrayList<String> lVals = new ArrayList<String>();
+
+        database.execute(false, new DbCallback<Integer>() {
+            @Override
+            public Integer doDbWork(final SQLiteDatabase db) {
+                Cursor cursor = null;
+                try {
+                    cursor = db.rawQuery(sqlQuery, null);
+                    //cursor.moveToFirst();
+                    while (cursor.moveToNext()){
+                        lVals.add(cursor.getString(0));        // folder count
+                    }
+                    return 0;
+                } finally {
+                    if( cursor != null ){
+                        cursor.close();
+                    }
+                }
+            }
+        });
+
+        for(int i=0; i<lVals.size(); i++){
+            lResult += lVals.get(i)+" ";
+        }
+        return lResult;
+    }
+
+
     public ArrayList<Message> searchForMessages() throws MessagingException
     {
 
@@ -562,7 +604,6 @@ public class LocalStore { // implements Serializable {
                 Cursor cursor = null;
                 int i = 0;
                 try {
-
                     cursor = db.rawQuery(queryString + " LIMIT 10", placeHolders);
 
                     while (cursor.moveToNext()) {
@@ -577,20 +618,23 @@ public class LocalStore { // implements Serializable {
                     }
                     cursor.close();
 
-                    /*
-                    cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
+
+                    //cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
+                    //cursor = db.rawQuery(queryString + " LIMIT 5000", placeHolders);
+                    cursor = db.rawQuery(queryString, placeHolders);
 
                     while (cursor.moveToNext()) {
-                        Message message = new Message();
-                        //message.populateFromGetMessageCursor(cursor);
-                        message.mSubject = cursor.getString(0);
-                        message.mFrom = cursor.getString(1);
-                        message.mText = cursor.getString(14);
+                        if( i>=20 ) {
+                            Message message = new Message();
+                            //message.populateFromGetMessageCursor(cursor);
+                            message.mSubject = cursor.getString(0);
+                            message.mFrom = cursor.getString(1);
+                            message.mText = cursor.getString(14);
 
-                        messages.add(message);
+                            messages.add(message);
+                        }
                         i++;
                     }
-                    */
                 } catch (Exception e) {
                     Log.d("BENCH", "Got an exception", e);
                 } finally {
