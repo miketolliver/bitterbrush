@@ -38,3 +38,25 @@ int WipeLogic::getFontPointSizeM()
     }
 }
 
+int WipeLogic::getFontPointSizeM2()
+{
+    if( mPlatformFlag == 1){
+        return 10;
+    }else if( mPlatformFlag == 2){
+        return 16;
+    }else{
+        return 12;
+    }
+}
+
+int WipeLogic::getFontPointSizeL()
+{
+    if( mPlatformFlag == 1){
+        return 14;
+    }else if( mPlatformFlag == 2){
+        return 20;
+    }else{
+        return 16;
+    }
+}
+

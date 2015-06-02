@@ -25,6 +25,8 @@ signals:
 public slots:
     int getPlatformFlag();
     int getFontPointSizeM();
+    int getFontPointSizeM2();
+    int getFontPointSizeL();
 
 
 private:

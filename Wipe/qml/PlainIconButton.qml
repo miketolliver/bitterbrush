@@ -25,7 +25,7 @@ Rectangle {
         //anchors.margins: Math.round(parent.height*0.25)
         anchors.centerIn: parent;
         width: Math.min(sourceSize.width, parent.width);
-        height: Math.min(sourceSize.height, parent.height);
+        height: Math.min(sourceSize.height, Math.round(parent.height*0.4));
         source: pIconSrc;
         //fillMode: Image.PreserveAspectFit
         fillMode: Image.PreserveAspectFit

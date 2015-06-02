@@ -22,8 +22,11 @@ DISTFILES += \
     qml/Drawer.qml \
     qml/RemoteSettings.qml \
     qml/WipeDevice.qml \
+    qml/WipeRemote.qml \
     qml/WipeDeviceConfirm.qml \
-    qml/WipeRemote.qml
+    qml/PlainButton.qml \
+    qml/PlainIconButton.qml
+
 
 HEADERS += \
     source/WipeLogic.h

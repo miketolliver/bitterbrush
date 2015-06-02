@@ -2,8 +2,8 @@ import QtQuick 1.1
 
 Rectangle {
     id: mainRoot;
-    width: 360
-    height: 360
+    width: 420
+    height: 420
 
     property bool pIsDrawerOpen: false;
     property int pWipeOptionState: 1;
@@ -18,12 +18,10 @@ Rectangle {
 
         pBgColor: pWipeOptionState===1 ? "#282828" : "#FFFFFF"
         pTextColor: pWipeOptionState===1 ? "#FFFFFF" : "#282828"
-        pText: "WIPE DEVICE p:" + wipeLogic.platformFlag;
-        pBorderSize: 1
+        pText: "WIPE DEVICE";
 
         onBtnClicked: {
             pWipeOptionState = 1;
-            //dummyTxt.text = "Wipe Device Clicked"
         }
     }
     PlainButton{
@@ -35,18 +33,24 @@ Rectangle {
         pBgColor: pWipeOptionState===2 ? "#282828" : "#FFFFFF"
         pTextColor: pWipeOptionState===2 ? "#FFFFFF" : "#282828"
         pText: "REMOTE WIPE"
-        pBorderSize: 1
 
         onBtnClicked: {
             pWipeOptionState = 2;
-            //dummyTxt.text = "Wipe Remote Clicked"
         }
+    }
+    Rectangle{
+        id: line1
+        anchors.left: parent.left
+        anchors.right: parent.right;
+        anchors.top: wipeDeviceBtn.bottom;
+        height: 2;
+        color: "#282828";
     }
 
 
     WipeDevice{
         id: wipeDevice
-        anchors.top: wipeDeviceBtn.bottom;
+        anchors.top: line1.bottom;
         anchors.bottom: footerLine.top
         anchors.left: parent.left;
         width: parent.width;
@@ -54,7 +58,7 @@ Rectangle {
     }
     WipeRemote{
         id: wipeRemote
-        anchors.top: wipeDeviceBtn.bottom;
+        anchors.top: line1.bottom;
         anchors.bottom: footerLine.top
         anchors.left: wipeDevice.right;
         width: parent.width;
