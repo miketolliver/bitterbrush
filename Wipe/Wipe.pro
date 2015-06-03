@@ -25,8 +25,18 @@ DISTFILES += \
     qml/WipeRemote.qml \
     qml/WipeDeviceConfirm.qml \
     qml/PlainButton.qml \
+    qml/PlainIconTextButton.qml \
     qml/PlainIconButton.qml
 
+
+
+
+android {
+     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/androidFiles
+
+    OTHER_FILES += \
+        $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml
+}
 
 HEADERS += \
     source/WipeLogic.h

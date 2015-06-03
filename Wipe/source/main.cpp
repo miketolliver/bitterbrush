@@ -1,6 +1,7 @@
 #include "qtquick1applicationviewer.h"
 #include <QApplication>
 #include <QDeclarativeContext>
+#include <QFontDatabase>
 #include "WipeLogic.h"
 
 using namespace mblsft;
@@ -15,9 +16,22 @@ int main(int argc, char *argv[])
 
 #endif
 
+    QFontDatabase fontDatabase;
+    int id = fontDatabase.addApplicationFont(":/fonts/SlatePro.ttf");
+    id = fontDatabase.addApplicationFont(":/fonts/SlatePro-Bold.ttf");
+    if( id >= 0 ){
+        QStringList fontList = fontDatabase.applicationFontFamilies( id );
+        QFont lTheFont( fontList.at(0) );
+        lTheFont.setStyleStrategy( QFont::PreferAntialias );
+        QGuiApplication::setFont(lTheFont);
+        qDebug("Successfully loaded SlatePro font.");
+    }else{
+        qDebug("Unable to load SlatePro font.");
+        //font couldn't be loaded, just keep the defaults
+    }
+
 
     WipeLogic* mWL = new WipeLogic();
-
 
     QtQuick1ApplicationViewer viewer;
 

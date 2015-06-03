@@ -4,7 +4,7 @@ Rectangle {
     id: btnRoot
 
     width: btnText.paintedWidth + (btnText.paintedHeight * 2);
-    height: btnText.paintedHeight * 3;
+    height: Math.round(btnText.paintedHeight * pHeightMult);
 
     property bool pPressed: btnMouseArea.pressed;
     property color pBgColor: "#F6F6F6"
@@ -14,6 +14,7 @@ Rectangle {
     property color pBorderColor: "#888888"
     property int pBorderSize: 0;
     property int pTextPointSize: wipeLogic.getFontPointSizeM();
+    property real pHeightMult: 3.0;
 
 
     signal btnClicked();

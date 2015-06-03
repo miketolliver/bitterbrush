@@ -7,6 +7,7 @@ Rectangle {
 
     property bool pIsDrawerOpen: false;
     property int pWipeOptionState: 1;
+    property bool pShowSettings: true; //false;
 
 
 
@@ -65,8 +66,6 @@ Rectangle {
         enabled: pWipeOptionState===2;
     }
 
-
-
     Rectangle{
         id: footerLine
         anchors.left: parent.left;
@@ -87,6 +86,41 @@ Rectangle {
             pIsDrawerOpen = true;
         }
     }
+
+
+    RemoteSettings{
+        id: settings
+        anchors.fill: parent;
+        visible: opacity > 0.05;
+        enabled: visible;
+        opacity: 0.0;
+
+        onCloseSettings: pShowSettings = false;
+
+        states: [
+            State {
+                when: pShowSettings
+                PropertyChanges {
+                    target: settings
+                    opacity: 1.0
+                }
+            }
+        ]
+        transitions:
+        [
+            Transition
+            {
+                PropertyAnimation
+                {
+                    properties: "opacity";
+                    duration: 200;
+                    easing.type: Easing.OutCurve
+                }
+            }
+        ]
+    }
+
+
     states: [
         State {
             when: pWipeOptionState===2
@@ -134,6 +168,14 @@ Rectangle {
         anchors.bottom: parent.bottom;
         anchors.rightMargin: -width
         enabled: pIsDrawerOpen;
+
+        onCloseDrawer: {
+            pIsDrawerOpen = false;
+        }
+        onOpenSettings: {
+            pIsDrawerOpen = false;
+            pShowSettings = true;
+        }
 
         states: [
             State {
